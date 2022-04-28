@@ -131,3 +131,4 @@ dist
 
 # env vars
 .env
+.env.test
