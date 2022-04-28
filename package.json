@@ -4,7 +4,9 @@
   "description": "A simple music library written using Express and MySQL",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prestart": "node utils/create-database.js",
+    "start": "nodemon -r dotenv/config index.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +20,12 @@
   },
   "homepage": "https://github.com/ejmadkins/music-library#readme",
   "devDependencies": {
-    "eslint": "^8.14.0"
+    "dotenv": "^16.0.0",
+    "eslint": "^8.14.0",
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "express": "^4.18.0",
+    "mysql2": "^2.3.3"
   }
 }
