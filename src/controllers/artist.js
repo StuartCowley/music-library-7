@@ -1,5 +1,6 @@
 const getDb = require("../services/db");
 
+// creates a new artist
 exports.create = async (req, res) => {
   const db = await getDb();
   const { name, genre } = req.body;
@@ -18,6 +19,7 @@ exports.create = async (req, res) => {
   db.close();
 };
 
+// returns all artists
 exports.read = async (_, res) => {
   const db = await getDb();
   try {
@@ -30,6 +32,7 @@ exports.read = async (_, res) => {
   db.close();
 };
 
+// returns a specific artist by Id
 exports.readById = async (req, res) => {
   const db = await getDb();
   const { artistId } = req.params;
@@ -47,6 +50,7 @@ exports.readById = async (req, res) => {
   db.close();
 };
 
+// patches an existing artist by Id
 exports.update = async (req, res) => {
   const db = await getDb();
   const data = req.body;
@@ -70,6 +74,7 @@ exports.update = async (req, res) => {
   db.close();
 };
 
+// deletes an existing artist by Id
 exports.delete = async (req, res) => {
   const db = await getDb();
   const { artistId } = req.params;
