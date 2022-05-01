@@ -6,37 +6,43 @@ const app = require("../src/app");
 
 describe("create album", () => {
   let db;
+  let artist;
   beforeEach(async () => (db = await getDb()));
+
+  beforeEach(async () => {
+    db = await getDb();
+    await db.query("INSERT INTO Artist (name, genre) VALUES(?, ?)", [
+      "Tame Impala",
+      "rock",
+    ]);
+
+    [artist] = await db.query("SELECT * FROM Artist");
+  });
 
   afterEach(async () => {
     await db.query("DELETE FROM Album");
+    await db.query("DELETE FROM Artist");
     await db.close();
   });
 
   describe("/album", () => {
     describe("POST", () => {
       it("creates a new album in the database", async () => {
-        const resArtist = await request(app).post("/artist").send({
-          name: "Tame Impala",
-          genre: "rock",
-        });
+        const res = await request(app)
+          .post(`/artist/${artist[0].id}/album`)
+          .send({
+            name: "Currents",
+            year: 2015,
+          });
 
-        const resAlbum = await request(app).post("/artist/1/album").send({
-          name: "Currents",
-          year: 2015,
-        });
-        console.log(resAlbum);
-
-        expect(resArtist.status).to.equal(201);
-        expect(resAlbum.status).to.equal(201);
+        expect(res.status).to.equal(201);
 
         const [[albumEntries]] = await db.query(
           `SELECT * FROM Album WHERE name = 'Currents'`
         );
-        console.log(albumEntries);
-
         expect(albumEntries.name).to.equal("Currents");
         expect(albumEntries.year).to.equal(2015);
+        expect(albumEntries.artistId).to.equal(artist[0].id);
       });
     });
   });
