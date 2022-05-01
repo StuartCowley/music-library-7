@@ -9,26 +9,34 @@ describe("create album", () => {
   beforeEach(async () => (db = await getDb()));
 
   afterEach(async () => {
-    await db.query("DELETE FROM Artist");
+    await db.query("DELETE FROM Album");
     await db.close();
   });
 
   describe("/album", () => {
     describe("POST", () => {
       it("creates a new album in the database", async () => {
-        const res = await request(app).post("/album").send({
+        const resArtist = await request(app).post("/artist").send({
           name: "Tame Impala",
           genre: "rock",
         });
 
-        expect(res.status).to.equal(201);
+        const resAlbum = await request(app).post("/artist/1/album").send({
+          name: "Currents",
+          year: 2015,
+        });
+        console.log(resAlbum);
 
-        const [[artistEntries]] = await db.query(
-          `SELECT * FROM Artist WHERE name = 'Tame Impala'`
+        expect(resArtist.status).to.equal(201);
+        expect(resAlbum.status).to.equal(201);
+
+        const [[albumEntries]] = await db.query(
+          `SELECT * FROM Album WHERE name = 'Currents'`
         );
+        console.log(albumEntries);
 
-        expect(artistEntries.name).to.equal("Tame Impala");
-        expect(artistEntries.genre).to.equal("rock");
+        expect(albumEntries.name).to.equal("Currents");
+        expect(albumEntries.year).to.equal(2015);
       });
     });
   });
