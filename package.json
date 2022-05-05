@@ -1,0 +1,36 @@
+{
+  "name": "music-library",
+  "version": "1.0.0",
+  "description": "A simple music library written using Express and MySQL",
+  "main": "index.js",
+  "scripts": {
+    "pretest": "node utils/create-database.js test",
+    "test": "mocha tests/**/*.js --exit --recursive --timeout 60000 --file ./tests/test-setup.js",
+    "posttest": "node utils/drop-database.js",
+    "prestart": "node utils/create-database.js",
+    "start": "nodemon -r dotenv/config index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ejmadkins/music-library.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ejmadkins/music-library/issues"
+  },
+  "homepage": "https://github.com/ejmadkins/music-library#readme",
+  "devDependencies": {
+    "chai": "^4.3.6",
+    "dotenv": "^16.0.0",
+    "eslint": "^8.14.0",
+    "mocha": "^9.2.2",
+    "nodemon": "^2.0.15",
+    "supertest": "^6.2.3"
+  },
+  "dependencies": {
+    "express": "^4.18.0",
+    "mysql2": "^2.3.3"
+  }
+}
